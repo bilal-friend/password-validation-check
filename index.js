@@ -46,3 +46,5 @@ input.addEventListener("keyup", () => {
     }
   });
 });
+
+// todo : replace "replace" by toogle by and play in css
