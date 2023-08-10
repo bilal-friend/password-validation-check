@@ -1,50 +1,27 @@
 const showIcon = document.querySelector(".field .icon i");
 const input = document.querySelector("input");
-const conditionIcons = document.querySelectorAll(".condition i");
+const conditionIcons = document.querySelectorAll("ul li");
 
 // Toggle password visibility
 showIcon.addEventListener("click", () => {
-  if (showIcon.classList.contains("fa-regular")) {
-    showIcon.classList.replace("fa-regular", "fa-solid");
-    showIcon.classList.replace("fa-eye", "fa-eye-slash");
-    input.type = "password";
-  } else {
-    showIcon.classList.replace("fa-solid", "fa-regular");
-    showIcon.classList.replace("fa-eye-slash", "fa-eye");
-    input.type = "text";
-  }
+  showIcon.classList.toggle("fa-eye");
+  showIcon.classList.toggle("fa-eye-slash");
+  input.type = showIcon.classList.contains("fa-eye") ? "text" : "password";
 });
 
-// Check password conditions on input keyup
+//  Check password conditions on input keyup
 input.addEventListener("keyup", () => {
   // Regular expressions for password conditions
-  const [lowercasePattern, uppercasePattern, numberPattern, specialPattern] = [
-    /[a-z]/,
-    /[A-Z]/,
-    /\d/,
-    /[^\w|^\d]/i,
+  const conditions = [
+    /[a-z]/.test(input.value),
+    /[A-Z]/.test(input.value),
+    /\d/.test(input.value),
+    /[^\w|\d]/i.test(input.value),
+    input.value.length >= 8,
   ];
-
-  // Check if each condition is met
-  const [lowercase, uppercase, number, special] = [
-    lowercasePattern.test(input.value),
-    uppercasePattern.test(input.value),
-    numberPattern.test(input.value),
-    specialPattern.test(input.value),
-  ];
-
-  // Check password length
-  const length = input.value.length >= 8;
 
   // Update condition icons based on conditions
-  const conditions = [lowercase, uppercase, number, special, length];
   conditions.forEach((condition, index) => {
-    if (condition) {
-      conditionIcons[index].classList.replace("fa-bullseye", "fa-check");
-    } else {
-      conditionIcons[index].classList.replace("fa-check", "fa-bullseye");
-    }
+    conditionIcons[index].classList.toggle("check", condition); //? you can use a conditon with toggle
   });
 });
-
-// todo : replace "replace" by toogle by and play in css
